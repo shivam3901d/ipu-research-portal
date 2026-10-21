@@ -1,0 +1,15 @@
+{
+  "name": "ipu-physics-portal",
+  "version": "1.0.0",
+  "description": "High-availability secure research web portal for USBAS Physics Department, IPU",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "dotenv": "^16.4.5",
+    "cors": "^2.8.5"
+  }
+}

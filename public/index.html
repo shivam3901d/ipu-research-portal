@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ipu portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- INTERACTIVE TOAST POPUP NOTIFICATION -->
+    <div id="toastAlert" class="toast-notification"></div>
+
+    <div class="app-container">
+        <!-- TOP STICKY BAR -->
+        <header class="navbar">
+            <div class="logo">ipu</div>
+            <nav>
+                <a onclick="switchToPublicView()" id="navHome" class="active">Home</a>
+                <button class="btn-admin-trigger" id="actionBtn" onclick="handleAuthNav()">Admin Login</button>
+            </nav>
+        </header>
+
+        <!-- MAIN BRANDING COVER -->
+        <section class="hero">
+            <h1>ipu Research Lab</h1>
+            <p>The Hub of Research and Innovation</p>
+        </section>
+
+        <!-- VIEW PANEL 1: PUBLIC VIEW ENGINE -->
+        <main class="view-panel active" id="publicView">
+            <!-- Lab/Department Dynamic Selection Row -->
+            <div class="lab-selector-container">
+                <span style="font-weight: 700; color: #1e3a8a; font-size: 14px;">Select Lab Domain:</span>
+                <div id="labTabsRow" class="lab-tabs-row">
+                    <!-- Dynamic Labs like Physics, Chemistry, Matlab load here -->
+                </div>
+            </div>
+
+            <!-- Dynamic Horizontal Section Navigation -->
+            <div class="filter-bar" id="sectionFilterRow">
+                <!-- Standard and Custom sections load here -->
+            </div>
+
+            <!-- Content Masonry Stream -->
+            <div class="dynamic-masonry-grid" id="dataStreamContainer">
+                <!-- Dynamic dataset listings loop here -->
+            </div>
+        </main>
+
+        <!-- VIEW PANEL 2: DEVICE-AGNOSTIC SECURE AUTH MODAL -->
+        <section class="view-panel" id="authView">
+            <div class="auth-box">
+                <h2>Portal Authorization</h2>
+                <p>Enter administrative parameters to unlock cross-department master cluster access.</p>
+                <form id="loginForm">
+                    <label>Username</label>
+                    <input type="text" id="usernameField" required autocomplete="off">
+                    
+                    <label>Password</label>
+                    <input type="password" id="passwordField" required>
+                    
+                    <button type="submit" class="btn-primary">Verify Credentials</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- VIEW PANEL 3: RESTRICTED MULTI-FUNCTION PUBLISHING MATRIX -->
+        <section class="view-panel" id="adminDashboardView">
+            <div class="admin-dashboard-layout">
+                <h2>Admin Control Center</h2>
+                <p>Publish cross-department assets or expand structural layout configurations.</p>
+                
+                <!-- Action Tab Toggles inside Admin Panel -->
+                <div class="admin-toggle-row">
+                    <button id="togglePublishBtn" class="admin-tab-btn active" onclick="setAdminAction('publish')">Add New Content</button>
+                    <button id="toggleManageBtn" class="admin-tab-btn" onclick="setAdminAction('structure')">Manage Labs & Sections</button>
+                </div>
+
+                <!-- SUB-FORM 1: PUBLISH LAB CONTENT MODULE -->
+                <form id="contentPublishForm" class="admin-sub-form active">
+                    <label>Target Lab / Department Domain *</label>
+                    <select id="pubLabSelect" required></select>
+
+                    <label>Target Section Slot *</label>
+                    <select id="pubSectionSelect" required></select>
+
+                    <label>Entry Title Name *</label>
+                    <input type="text" id="pubTitle" required placeholder="e.g., High-Resolution GC-MS System">
+                    
+                    <label>Metadata Parameter (Room No / Journal Scope) *</label>
+                    <input type="text" id="pubMeta" required placeholder="e.g., Room 302, Chemistry Wing">
+                    
+                    <label>Resource Reference URL Link (Optional)</label>
+                    <input type="url" id="pubLink" placeholder="e.g., https://doi.org">
+
+                    <label>Core Description / Technical Specifications *</label>
+                    <textarea id="pubDesc" rows="4" required placeholder="Provide clear contextual documentation..."></textarea>
+                    
+                    <button type="submit" class="btn-primary">Publish Entry Node</button>
+                </form>
+
+                <!-- SUB-FORM 2: STRUCTURE MANAGER MODULE -->
+                <div id="structureManagerForm" class="admin-sub-form">
+                    <div class="management-card">
+                        <h3>➕ Expand New Lab Domain</h3>
+                        <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Create a new repository layer (e.g., chemistry, matlab).</p>
+                        <form id="addLabForm">
+                            <input type="text" id="newLabName" required placeholder="e.g., chemistry" style="text-transform: lowercase;">
+                            <button type="submit" class="btn-primary" style="margin-top:10px; padding:8px;">Register New Lab</button>
+                        </form>
+                    </div>
+
+                    <div class="management-card" style="margin-top:20px;">
+                        <h3>➕ Append Custom Slide / Section</h3>
+                        <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Create an extra section that will display globally across all labs.</p>
+                        <form id="addSectionForm">
+                            <input type="text" id="newSectionName" required placeholder="e.g., upcoming seminars">
+                            <button type="submit" class="btn-primary" style="margin-top:10px; padding:8px;">Deploy Custom Slide</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
