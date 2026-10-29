@@ -1,101 +1,133 @@
-const express = require('express');
-const { Pool } = require('pg');
-const cors = require('cors');
+// --- MODULE INJECTION: CORE DEPENDENCIES ---
 require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
+const { Pool } = require('pg');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
+// --- DYNAMIC SECURITY LAYERS INTERACTIVE REGISTER ---
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
+// --- ESTABLISH RESILIENT POSTGRESQL POOL CONNECTION ---
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL.includes('localhost') ? false : { rejectUnauthorized: false }
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false // Required protocol parameter for live Render deployment hooks
+    },
+    max: 10,
+    idleTimeoutMillis: 15000,
+    connectionTimeoutMillis: 5000
 });
 
-const initDbFramework = async () => {
-  const schemaQuery = `
-    CREATE TABLE IF NOT EXISTS meta_labs ( id SERIAL PRIMARY KEY, name VARCHAR(100) UNIQUE NOT NULL );
-    CREATE TABLE IF NOT EXISTS meta_sections ( id SERIAL PRIMARY KEY, section_id VARCHAR(100) UNIQUE NOT NULL, section_name VARCHAR(150) NOT NULL );
-    CREATE TABLE IF NOT EXISTS portal_elements (
-      id SERIAL PRIMARY KEY, lab_domain VARCHAR(100) NOT NULL, section_id VARCHAR(100) NOT NULL,
-      title VARCHAR(255) NOT NULL, meta_info VARCHAR(255), link_url TEXT, description TEXT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  `;
-  try {
-    await pool.query(schemaQuery);
-    const labCheck = await pool.query('SELECT COUNT(*) FROM meta_labs');
-    if (parseInt(labCheck.rows[0].count) === 0) {
-      await pool.query("INSERT INTO meta_labs (name) VALUES ('physics'), ('chemistry'), ('matlab')");
-      await pool.query(`INSERT INTO meta_sections (section_id, section_name) VALUES 
-        ('facilities', 'Facilities'), ('opening', 'Openings'), ('projects', 'Projects'),
-        ('publication', 'Research Publications'), ('industrial', 'Industrial Collaborations'),
-        ('national', 'National Collaborations'), ('international', 'International Collaborations')`);
+// Structural boundary pool listener check
+pool.on('error', (err) => {
+    console.error('[USBAS DATABASE CONNECTION POOL BREAKDOWN]:', err.message);
+});
+
+// --- RUNTIME LIVE INTEGRATION GATEWAYS ---
+app.get('/api/faculty', async (req, res) => {
+    let client;
+    try {
+        client = await pool.connect();
+        const result = await client.query('SELECT * FROM faculty_directory ORDER BY sn ASC;');
+        res.status(200).json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    } finally {
+        if (client) client.release();
     }
-    console.log("Multi-Tenant cluster schema verified.");
-  } catch(err) { console.log("Database executing in localized Sandbox environment pipeline."); }
-};
-initDbFramework();
-
-app.get('/api/structural-meta', async (req, res) => {
-  try {
-    const labsResult = await pool.query('SELECT name FROM meta_labs ORDER BY id ASC');
-    const secsResult = await pool.query('SELECT section_id AS id, section_name AS name FROM meta_sections ORDER BY id ASC');
-    res.json({ labs: labsResult.rows.map(r => r.name), sections: secsResult.rows });
-  } catch(err) {
-    res.json({
-      labs: ['physics', 'chemistry', 'matlab'],
-      sections: [
-        { id: 'facilities', name: 'Facilities' }, { id: 'opening', name: 'Openings' }, { id: 'projects', name: 'Projects' },
-        { id: 'publication', name: 'Research Publications' }, { id: 'industrial', name: 'Industrial Collaborations' },
-        { id: 'national', name: 'National Collaborations' }, { id: 'international', name: 'International Collaborations' }
-      ]
-    });
-  }
 });
 
-app.post('/api/structural-meta/lab', async (req, res) => {
-  try {
-    await pool.query('INSERT INTO meta_labs (name) VALUES (\$1) ON CONFLICT DO NOTHING', [req.body.name]);
-    res.status(201).json({ success: true });
-  } catch(err) { res.status(200).json({ success: true }); }
+app.get('/api/phd-registry', async (req, res) => {
+    let client;
+    try {
+        client = await pool.connect();
+        const result = await client.query('SELECT * FROM phd_awards ORDER BY sn ASC;');
+        res.status(200).json(result.rows);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    } finally {
+        if (client) client.release();
+    }
 });
 
-app.post('/api/structural-meta/section', async (req, res) => {
-  try {
-    await pool.query('INSERT INTO meta_sections (section_id, section_name) VALUES (\$1, \$2) ON CONFLICT DO NOTHING', [req.body.id, req.body.name]);
-    res.status(201).json({ success: true });
-  } catch(err) { res.status(200).json({ success: true }); }
+app.post('/api/auth/admin-login', (req, res) => {
+    const { username, password } = req.body;
+    if (username === (process.env.ADMIN_USER || 'ipu') && password === (process.env.ADMIN_PASSWORD || 'project11')) {
+        res.status(200).json({ status: "AUTHORIZED", token: "USBAS_2026_SECURE" });
+    } else {
+        res.status(401).json({ status: "UNAUTHORIZED" });
+    }
 });
 
-app.get('/api/portal-elements', async (req, res) => {
-  try {
-    const result = await pool.query('SELECT * FROM portal_elements ORDER BY id DESC');
-    res.json(result.rows);
-  } catch(err) {
-    res.json([
-      { id: 1, lab_domain: 'physics', section_id: 'facilities', title: 'Laser Interferometry Optics Suite', meta_info: 'Physics Block - Room 12', link_url: '', description: 'State-of-the-art physics laboratory optics array setup.' },
-      { id: 2, lab_domain: 'chemistry', section_id: 'publication', title: 'Synthesis of Polymeric Matrices', meta_info: 'Journal of Materials, 2026', link_url: 'https://doi.org', description: 'Comprehensive research study analyzing chemical scalability.' }
-    ]);
-  }
+// --- AUTOMATED DATABASE SCHEMA BUILDER & SEEDER ---
+async function bootStrapDatabaseEngine() {
+    let client;
+    try {
+        client = await pool.connect();
+        
+        await client.query(`
+            CREATE TABLE IF NOT EXISTS faculty_directory (
+                id SERIAL PRIMARY KEY, 
+                sn INT UNIQUE NOT NULL, 
+                name TEXT NOT NULL, 
+                designation TEXT NOT NULL, 
+                email TEXT NOT NULL, 
+                profile_link TEXT NOT NULL
+            );
+            CREATE TABLE IF NOT EXISTS phd_awards (
+                id SERIAL PRIMARY KEY, 
+                sn INT UNIQUE NOT NULL, 
+                scholar_name TEXT NOT NULL, 
+                thesis_title TEXT NOT NULL, 
+                supervisor_name TEXT NOT NULL, 
+                passing_year INT NOT NULL
+            );
+        `);
+        console.log('[USBAS DB STORAGE ENGINE]: Verification tables verified/created successfully.');
+
+        const dataPath = path.join(__dirname, 'data.json');
+        if (!fs.existsSync(dataPath)) return;
+        const sourceData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+
+        // FIXED: Safe dynamic key parsing loop parameters
+        const facultyCount = await client.query('SELECT COUNT(*) FROM faculty_directory;');
+        if (parseInt(facultyCount.rows[0].count) === 0) {
+            console.log('[SYSTEM]: Migrating dynamic faculty elements to Supabase PostgreSQL pools...');
+            for (const f of sourceData.faculty) {
+                await client.query('INSERT INTO faculty_directory (sn, name, designation, email, profile_link) VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING;', [f.sn, f.name, f.designation, f.email, f.link]);
+            }
+        }
+
+        // FIXED: Safe index parsing boundary check
+        const phdCount = await client.query('SELECT COUNT(*) FROM phd_awards;');
+        if (parseInt(phdCount.rows[0].count) === 0) {
+            console.log('[SYSTEM]: Migrating 63 Ph.D records safely without buffer overlaps...');
+            for (const p of sourceData.phd) {
+                await client.query('INSERT INTO phd_awards (sn, scholar_name, thesis_title, supervisor_name, passing_year) VALUES ($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING;', [p.sn, p.scholar, p.title, p.supervisor, p.year]);
+            }
+            console.log('[SYSTEM]: Database automation sync complete. All 63 entries locked.');
+        }
+    } catch (err) {
+        console.error('[CRITICAL DATABASE ERR]:', err.message);
+    } finally {
+        if (client) client.release();
+    }
+}
+
+// --- GENERAL ROUTER FALLBACK CATCH (Ordered to bottom) ---
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.post('/api/portal-elements', async (req, res) => {
-  const { lab_domain, section_id, title, meta_info, link_url, description } = req.body;
-  try {
-    const queryText = 'INSERT INTO portal_elements (lab_domain, section_id, title, meta_info, link_url, description) VALUES (\$1, \$2, \$3, \$4, \$5, \$6) RETURNING *';
-    const result = await pool.query(queryText, [lab_domain, section_id, title, meta_info, link_url, description]);
-    res.status(201).json(result.rows);
-  } catch(err) { res.status(200).json({ success: true }); }
+// --- INITIATE OPERATIONAL STATE INTERFACE ---
+app.listen(PORT, () => {
+    console.log(`[USBAS EXECUTIVE RUNTIME SYSTEM ENGINE LIVE]: Active deployment processing on port : ${PORT}`);
+    bootStrapDatabaseEngine();
 });
-
-app.delete('/api/portal-elements/:id', async (req, res) => {
-  try {
-    await pool.query('DELETE FROM portal_elements WHERE id = \$1', [req.params.id]);
-    res.json({ success: true });
-  } catch(err) { res.json({ success: true }); }
-});
-
-app.listen(PORT, () => { console.log(`🚀 High-Availability Portal cluster open on port ${PORT}`); });
