@@ -1,68 +1,385 @@
-@import url('https://googleapis.com');
+/* --- PREMIUM RESET AND CORPORATE VARIABLES --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-body { background-color: #f8fafc; color: #0f172a; line-height: 1.5; overflow-x: hidden; }
+:root {
+    --primary-blue: #0b2545;       /* Premium Dark Corporate Blue */
+    --accent-blue: #134074;        /* Steel Metallic Corporate Blue */
+    --clean-white-bg: #f8fafc;     /* Minimalist Off-White Base */
+    --pure-white: #ffffff;
+    --text-slate: #0f172a;
+    --text-muted: #64748b;
+    --border-soft: #cbd5e1;
+    --high-light-cyan: #38bdf8;
+}
 
-.app-container { display: flex; flex-direction: column; min-height: 100vh; width: 100vw; }
+body {
+    background-color: var(--clean-white-bg);
+    color: var(--text-slate);
+    line-height: 1.5;
+}
 
-/* Header and Navigation Bar */
-.navbar { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 16px 40px; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 100; }
-.logo { font-size: 26px; font-weight: 800; color: #1d4ed8; letter-spacing: -0.8px; text-transform: lowercase; }
-nav { display: flex; align-items: center; gap: 24px; }
-nav a { text-decoration: none; color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer; }
-nav a.active { color: #1d4ed8; }
-.btn-admin-trigger { background: #f1f5f9; color: #334155; padding: 8px 16px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; font-size: 13px; }
+/* --- RESPONSIVE TOP NAV THEME WITH SVG BRANDING --- */
+.main-header {
+    background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+    color: var(--pure-white);
+    padding: 1.1rem 4%;
+    position: sticky;
+    top: 0;
+    z-index: 1200;
+    box-shadow: 0 4px 30px rgba(11, 37, 69, 0.25);
+}
 
-/* Cover Hero section */
-.hero { background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); padding: 50px 40px; color: #ffffff; text-align: center; border-bottom: 4px solid #2563eb; }
-.hero h1 { font-size: 36px; font-weight: 800; margin-bottom: 8px; }
-.hero p { color: #94a3b8; font-size: 16px; }
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1600px;
+    margin: 0 auto;
+}
 
-/* Lab Selector and Tabs Row */
-.lab-selector-container { max-width: 1200px; width: 100%; margin: 25px auto 0 auto; padding: 0 40px; display: flex; align-items: center; gap: 15px; }
-.lab-tabs-row { display: flex; gap: 10px; overflow-x: auto; }
-.lab-tab { background: #e2e8f0; border: none; padding: 8px 16px; font-size: 13px; font-weight: 700; color: #475569; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-.lab-tab.active { background: #1e3a8a; color: #ffffff; }
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-/* Filter Configuration Horizontal Bar */
-.filter-bar { display: flex; gap: 10px; overflow-x: auto; margin: 20px auto; max-width: 1200px; width: 100%; padding: 0 40px; }
-.filter-btn { background: #ffffff; border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #475569; cursor: pointer; white-space: nowrap; }
-.filter-btn.active { background: #1d4ed8; color: #ffffff; border-color: #1d4ed8; }
+.ipu-logo-svg {
+    height: 52px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
 
-/* Main Master Workspace Views */
-.view-panel { padding: 0 40px 60px 40px; max-width: 1200px; width: 100%; margin: 0 auto; display: none; }
-.view-panel.active { display: block; }
+.ipu-logo-svg:hover {
+    transform: scale(1.02);
+}
 
-/* High-Availability Dashboard Stream Masonry Grid */
-.dynamic-masonry-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 24px; margin-top: 20px; }
+.branding-divider {
+    width: 2px;
+    height: 38px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 0 8px;
+}
 
-/* Customized Content Stream Cards */
-.node-card { background: #ffffff; padding: 24px; border-radius: 12px; border: 1px solid #e2e8f0; border-top: 4px solid #3b82f6; display: flex; flex-direction: column; justify-content: space-between; }
-.badge { display: inline-block; padding: 4px 10px; font-size: 11px; font-weight: 700; border-radius: 4px; text-transform: uppercase; margin-bottom: 12px; background: #e0f2fe; color: #0369a1; align-self: flex-start; }
-.node-card h4 { font-size: 18px; color: #0f172a; margin-bottom: 4px; font-weight: 700; }
-.meta-info { font-size: 13px; color: #2563eb; font-weight: 600; margin-bottom: 12px; }
-.node-card p { color: #475569; font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
-.card-link-anchor { display: inline-block; font-size: 13px; color: #2563eb; font-weight: 600; text-decoration: none; margin-bottom: 15px; }
+.school-title {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #ffffff;
+}
 
-/* Admin panel tabs layout styling */
-.admin-toggle-row { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
-.admin-tab-btn { background: none; border: none; padding: 8px 16px; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; }
-.admin-tab-btn.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
-.admin-sub-form { display: none; }
-.admin-sub-form.active { display: block; }
-.management-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; }
+.hub-tag {
+    font-size: 0.74rem;
+    color: #94a3b8;
+    display: block;
+}
 
-/* Deletion Trigger and form elements components */
-.btn-delete { background-color: #fef2f2; color: #ef4444; border: 1px solid #fee2e2; padding: 8px 14px; font-size: 12px; font-weight: 600; border-radius: 6px; cursor: pointer; width: 100%; text-align: center; }
-.btn-delete:hover { background-color: #ef4444; color: #ffffff; }
-.auth-box, .admin-dashboard-layout { max-width: 550px; margin: 40px auto; background: #ffffff; padding: 32px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-label { display: block; margin-top: 16px; font-size: 13px; font-weight: 600; color: #475569; }
-input, select, textarea { width: 100%; padding: 11px; margin-top: 6px; border-radius: 6px; border: 1px solid #cbd5e1; background-color: #fff; font-size: 14px; outline: none; }
-input:focus, select:focus, textarea:focus { border-color: #2563eb; }
-.btn-primary { display: block; width: 100%; background-color: #2563eb; color: #fff; font-weight: 600; border: none; padding: 12px; margin-top: 24px; border-radius: 6px; cursor: pointer; }
+.nav-bar {
+    display: flex;
+    gap: 4px;
+}
 
-/* TOAST ALERT NOTIFICATION POPUP PANEL STYLING */
-.toast-notification { position: fixed; bottom: 30px; right: 30px; background: #0f172a; color: #ffffff; padding: 16px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000; }
-.toast-notification.show { transform: translateY(0); opacity: 1; }
-.toast-success { border-left: 5px solid #10b981; }
-.toast-error { border-left: 5px solid #ef4444; }
+.nav-item {
+    color: #cbd5e1;
+    text-decoration: none;
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--pure-white);
+    background-color: rgba(255, 255, 255, 0.12);
+}
+
+/* --- AUTO-FADE TIMED CAROUSEL SPECIFICATIONS --- */
+.carousel-section {
+    position: relative;
+    height: 240px;
+    background-color: #020617;
+    overflow: hidden;
+}
+
+.carousel-container {
+    height: 100%;
+}
+
+.carousel-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding: 0 6%;
+}
+
+.carousel-slide:nth-child(1) { background-image: url('https://unsplash.com'); }
+.carousel-slide:nth-child(2) { background-image: url('https://unsplash.com'); }
+
+.carousel-slide.active { opacity: 1; z-index: 5; }
+.carousel-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11, 37, 69, 0.94) 0%, rgba(19, 64, 116, 0.4) 100%); }
+.carousel-caption { position: relative; z-index: 10; color: var(--pure-white); max-width: 750px; }
+.badge { background-color: var(--high-light-cyan); color: var(--primary-blue); padding: 3px 8px; font-size: 0.7rem; font-weight: 700; border-radius: 4px; display: inline-block; margin-bottom: 6px; }
+.carousel-caption h3 { font-size: 1.6rem; margin-bottom: 6px; font-weight: 700; }
+.carousel-caption p { font-size: 0.9rem; color: #cbd5e1; }
+
+.carousel-dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 20; display: flex; gap: 6px; }
+.dot { width: 18px; height: 4px; background-color: rgba(255, 255, 255, 0.25); border-radius: 2px; cursor: pointer; }
+.dot.active { background-color: var(--pure-white); }
+/* --- DYNAMIC LOWER CLEAN CONTAINER LAYOUT --- */
+.content-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem 4%;
+}
+
+.portal-section {
+    display: none;
+    background-color: var(--pure-white);
+    padding: 2.2rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+.portal-section.active {
+    display: block;
+    animation: slideUp 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.section-title-wrapper { 
+    margin-bottom: 1.5rem; 
+}
+
+.section-title-wrapper h3 { 
+    font-size: 1.3rem; 
+    color: var(--primary-blue); 
+    font-weight: 700; 
+}
+
+.section-title-wrapper p { 
+    font-size: 0.88rem; 
+    color: var(--text-muted); 
+}
+
+/* --- NEW COMPONENT: INDUSTRIAL CHEMISTRY MENTOR CARDS --- */
+.new-launch-banner {
+    background-color: #fef3c7; 
+    color: #b45309; 
+    padding: 4px 10px; 
+    border-radius: 5px; 
+    font-size: 0.78rem; 
+    font-weight: 700; 
+    display: inline-block; 
+    margin-bottom: 6px;
+}
+
+.faculty-subject-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+    margin-bottom: 2rem;
+}
+
+.mentor-card {
+    background-color: #f8fafc; 
+    border: 1px solid #e2e8f0; 
+    padding: 14px; 
+    border-radius: 6px;
+}
+
+.mentor-card h5 { 
+    font-size: 0.85rem; 
+    color: var(--primary-blue); 
+    margin-bottom: 4px; 
+}
+
+.mentor-card p { 
+    font-size: 0.8rem; 
+    color: #475569; 
+    line-height: 1.4; 
+}
+
+.mentor-card.highlight { 
+    background-color: #f0fdf4; 
+    border-color: #bbf7d0; 
+}
+
+/* --- ACCORDION AND STATIC PDF SYLLABUS MAPPINGS --- */
+.syllabus-block { 
+    border: 1px solid #e2e8f0; 
+    border-radius: 6px; 
+    margin-bottom: 10px; 
+    overflow: hidden; 
+}
+
+.syllabus-block-header { 
+    background-color: #f1f5f9; 
+    padding: 12px 16px; 
+    font-size: 0.88rem; 
+    font-weight: 600; 
+    color: var(--primary-blue); 
+}
+
+.syllabus-block-content { 
+    padding: 14px; 
+    background-color: var(--pure-white); 
+}
+
+.raw-syllabus-pdf-box { 
+    margin-top: 10px; 
+    background-color: #fafafa; 
+    border-left: 3px solid var(--accent-blue); 
+    padding: 10px; 
+    font-size: 0.8rem; 
+    color: #334155; 
+}
+/* --- SEARCH PANEL WRAPPER AND FILTERS LAYOUT --- */
+.table-search-box { 
+    position: relative; 
+    max-width: 440px; 
+    margin-top: 10px; 
+}
+
+.table-search-box input { 
+    width: 100%; 
+    padding: 8px 12px 8px 36px; 
+    border: 1px solid var(--border-soft); 
+    border-radius: 6px; 
+    font-size: 0.86rem; 
+    outline: none; 
+    transition: border-color 0.2s ease-in-out;
+}
+
+.table-search-box input:focus { 
+    border-color: var(--accent-blue); 
+}
+
+.table-search-box .search-icon { 
+    position: absolute; 
+    left: 12px; 
+    top: 50%; 
+    transform: translateY(-50%); 
+    color: var(--text-muted); 
+    font-size: 0.85rem; 
+}
+
+/* --- HIGH-END CORPORATE DATA TABLES --- */
+.table-responsive-container { 
+    width: 100%; 
+    overflow-x: auto; 
+    border: 1px solid #e2e8f0; 
+    border-radius: 6px; 
+}
+
+.premium-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    text-align: left; 
+    font-size: 0.9rem; 
+}
+
+.premium-table th { 
+    background-color: #f1f5f9; 
+    color: var(--primary-blue); 
+    font-weight: 600; 
+    padding: 12px 16px; 
+    border-bottom: 2px solid var(--border-soft); 
+}
+
+.premium-table td { 
+    padding: 11px 16px; 
+    border-bottom: 1px solid #e2e8f0; 
+    color: #334155; 
+}
+
+.premium-table tbody tr:hover { 
+    background-color: #f8fafc; 
+}
+
+.dense-text td { 
+    font-size: 0.84rem; 
+    padding: 8px 12px; 
+}
+
+.sub-table-heading { 
+    font-size: 1.05rem; 
+    color: var(--accent-blue); 
+    margin-bottom: 0.6rem; 
+    font-weight: 600; 
+    display: flex; 
+    align-items: center; 
+    gap: 6px; 
+}
+
+/* --- HOVER ARROW AND DYNAMIC TOOLTIP EFFECTS --- */
+.table-profile-link { 
+    color: var(--accent-blue); 
+    text-decoration: none; 
+    font-weight: 600; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 4px; 
+}
+
+.arrow-icon { 
+    transition: transform 0.2s ease-in-out; 
+}
+
+.table-profile-link:hover .arrow-icon { 
+    transform: translateX(4px); 
+}
+
+.tooltip-container { 
+    position: relative; 
+    display: inline-block; 
+}
+
+.tooltip-text {
+    visibility: hidden; 
+    width: 180px; 
+    background-color: var(--primary-blue); 
+    color: var(--pure-white);
+    text-align: center; 
+    padding: 5px 8px; 
+    border-radius: 4px; 
+    position: absolute; 
+    z-index: 250;
+    bottom: 125%; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    opacity: 0; 
+    transition: opacity 0.2s ease-in-out;
+    font-size: 0.72rem; 
+    pointer-events: none;
+}
+
+.tooltip-container:hover .tooltip-text { 
+    visibility: visible; 
+    opacity: 1; 
+}
+
+/* --- SYSTEM FOOTER --- */
+.main-footer { 
+    background-color: var(--primary-blue); 
+    color: #94a3b8; 
+    text-align: center; 
+    padding: 1.2rem; 
+    font-size: 0.8rem; 
+    margin-top: 4rem; 
+    border-top: 3px solid var(--accent-blue); 
+}

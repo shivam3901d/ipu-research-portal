@@ -3,127 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ipu portal</title>
+    <title>GGSIPU USBAS Research Portal</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cloudflare.com">
 </head>
 <body>
 
-    <!-- INTERACTIVE TOAST POPUP NOTIFICATION -->
-    <div id="toastAlert" class="toast-notification"></div>
-
-    <div class="app-container">
-        <!-- TOP STICKY BAR -->
-        <header class="navbar">
-            <div class="logo">ipu</div>
-            <nav>
-                <a onclick="switchToPublicView()" id="navHome" class="active">Home</a>
-                <button class="btn-admin-trigger" id="actionBtn" onclick="handleAuthNav()">Admin Login</button>
+    <!-- TOP PREMIUM DARK BLUE CORPORATE HEADER WITH INTEGRATED LOGO -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <!-- Mapped GGSIPU Official Logo Vector Blueprint -->
+                <svg class="ipu-logo-svg" xmlns="http://w3.org" viewBox="0 0 1000 350" width="180" height="65">
+                    <defs>
+                        <style>
+                            .title-main { font-family: 'Segoe UI', Arial, sans-serif; font-weight: 700; fill: #ffffff; font-size: 50px; }
+                        </style>
+                    </defs>
+                    <g transform="translate(15, 15)">
+                        <circle cx="150" cy="150" r="130" fill="#facc15" stroke="#ffffff" stroke-width="7"/>
+                        <circle cx="150" cy="150" r="110" fill="none" stroke="#0f172a" stroke-width="4"/>
+                        <path d="M 90 180 Q 150 130 210 180 L 210 205 Q 150 160 90 205 Z" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+                        <rect x="130" y="75" width="40" height="40" fill="#38bdf8" stroke="#000000" stroke-width="3"/>
+                        <path d="M 85 115 L 105 155 L 75 155 Z" fill="#1e293b"/>
+                        <path d="M 215 115 Q 225 135 205 165" stroke="#16a34a" stroke-width="4" fill="none"/>
+                        <path d="M 105 235 Q 150 205 195 235 Q 150 265 105 235" fill="#ffedd5" stroke="#000000" stroke-width="2"/>
+                    </g>
+                    <text x="320" y="95" class="title-main">Guru Gobind</text>
+                    <text x="320" y="165" class="title-main">Singh</text>
+                    <text x="320" y="235" class="title-main">Indraprastha</text>
+                    <text x="320" y="305" class="title-main">University</text>
+                </svg>
+                <div class="branding-divider"></div>
+                <div class="branding-text">
+                    <h2 class="school-title">University School of Basic & Applied Sciences</h2>
+                    <span class="hub-tag">USBAS Official Research Portal</span>
+                </div>
+            </div>
+            <nav class="nav-bar">
+                <a href="#faculty" class="nav-item active" onclick="switchSection('faculty', this)">Faculty Directory</a>
+                <a href="#programmes" class="nav-item" onclick="switchSection('programmes', this)">Programmes</a>
+                <a href="#btech-ic" class="nav-item" onclick="switchSection('btech-ic', this)">B.Tech Ind. Chemistry</a>
+                <a href="#laboratories" class="nav-item" onclick="switchSection('laboratories', this)">Laboratories Map</a>
+                <a href="#phd-registry" class="nav-item" onclick="switchSection('phd-registry', this)">Ph.D. Registry</a>
+                <a href="#admin-portal" class="nav-item" onclick="switchSection('admin-portal', this)"><i class="fa-solid fa-lock"></i> Admin Panel</a>
             </nav>
-        </header>
+        </div>
+    </header>
 
-        <!-- MAIN BRANDING COVER -->
-        <section class="hero">
-            <h1>ipu Research Lab</h1>
-            <p>The Hub of Research and Innovation</p>
-        </section>
-
-        <!-- VIEW PANEL 1: PUBLIC VIEW ENGINE -->
-        <main class="view-panel active" id="publicView">
-            <!-- Lab/Department Dynamic Selection Row -->
-            <div class="lab-selector-container">
-                <span style="font-weight: 700; color: #1e3a8a; font-size: 14px;">Select Lab Domain:</span>
-                <div id="labTabsRow" class="lab-tabs-row">
-                    <!-- Dynamic Labs like Physics, Chemistry, Matlab load here -->
+    <!-- AUTO-FADING BANNER HERO CAROUSEL -->
+    <section class="carousel-section">
+        <div class="carousel-container">
+            <div class="carousel-slide active">
+                <div class="carousel-overlay"></div>
+                <div class="carousel-caption">
+                    <span class="badge">USBAS Engineering Integration</span>
+                    <h3>B.Tech in Industrial Chemistry (Session 2026-27)</h3>
+                    <p>Fostering scalable institutional framework aligning pure chemical theories with process engineering dynamics.</p>
                 </div>
             </div>
-
-            <!-- Dynamic Horizontal Section Navigation -->
-            <div class="filter-bar" id="sectionFilterRow">
-                <!-- Standard and Custom sections load here -->
+            <div class="carousel-slide">
+                <div class="carousel-overlay"></div>
+                <div class="carousel-caption">
+                    <span class="badge">Research Excellence</span>
+                    <h3>Sophisticated Structural Laboratory Clusters</h3>
+                    <p>Equipped with dedicated computational nodes, advanced materials cells, and verified academic parameters.</p>
+                </div>
             </div>
+        </div>
+        <div class="carousel-dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+        </div>
+    </section>
 
-            <!-- Content Masonry Stream -->
-            <div class="dynamic-masonry-grid" id="dataStreamContainer">
-                <!-- Dynamic dataset listings loop here -->
+    <!-- BOTTOM DYNAMIC WHITE CLEAN LAYOUT BASE -->
+    <main class="content-wrapper">
+        <!-- SECTION 1: FACULTY DIRECTORY WITH SAMARTH LINKS -->
+        <section id="faculty" class="portal-section active">
+            <div class="section-title-wrapper">
+                <h3>USBAS Academic Faculty Directory</h3>
+                <p>Authentic active personnel records mapped directly with official Samarth profile portals.</p>
+                <div class="table-search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="facultySearch" placeholder="Filter by faculty name, designation, email..." onkeyup="searchTable('facultyTable', 'facultySearch')">
+                </div>
             </div>
-        </main>
-
-        <!-- VIEW PANEL 2: DEVICE-AGNOSTIC SECURE AUTH MODAL -->
-        <section class="view-panel" id="authView">
-            <div class="auth-box">
-                <h2>Portal Authorization</h2>
-                <p>Enter administrative parameters to unlock cross-department master cluster access.</p>
-                <form id="loginForm">
-                    <label>Username</label>
-                    <input type="text" id="usernameField" required autocomplete="off">
-                    
-                    <label>Password</label>
-                    <input type="password" id="passwordField" required>
-                    
-                    <button type="submit" class="btn-primary">Verify Credentials</button>
-                </form>
+            <div class="table-responsive-container">
+                <table id="facultyTable" class="premium-table">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th>Name of Faculty</th>
+                            <th>Designation</th>
+                            <th>Email ID</th>
+                            <th>Verified Samarth Profile Link</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Dr. Shruti Aggarwal</td><td>Professor</td><td>shruti [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (n3)</span></div></td></tr>
+                        <tr><td>2</td><td>Dr. Anu Venugo Palan</td><td>Professor</td><td>anu [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (n9)</span></div></td></tr>
+                        <tr><td>3</td><td>Dr. Anindya Datta</td><td>Professor</td><td>anindya.datta [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (nr)</span></div></td></tr>
+                        <tr><td>4</td><td>Dr. Rashmi Bhardwaj</td><td>Professor</td><td>rashmib [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (n4)</span></div></td></tr>
+                        <tr><td>5</td><td>Dr. Vaishali Singh</td><td>Professor</td><td>vaishalisingh [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (no)</span></div></td></tr>
+                        <tr><td>6</td><td>Dr. Tapan Kumar Jain</td><td>Professor</td><td>tapan.jain [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (nt)</span></div></td></tr>
+                        <tr><td>7</td><td>Dr. Abha Aggarwal</td><td>Professor</td><td>abha [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (n2)</span></div></td></tr>
+                        <tr><td>8</td><td>Dr. Rajesh Kumar</td><td>Professor</td><td>rajeshkumar [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (n7)</span></div></td></tr>
+                        <tr><td>9</td><td>Dr. Gulshan Kumar</td><td>Professor</td><td>gulshandhamija [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (nv)</span></div></td></tr>
+                        <tr><td>10</td><td>Dr. Kriti Batra</td><td>Professor</td><td>kbatra [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (ng)</span></div></td></tr>
+                        <tr><td>11</td><td>Dr. Neeleshwar Sonnathi</td><td>Professor</td><td>sn [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (id)</span></div></td></tr>
+                        <tr><td>12</td><td>Dr. Yogesh Kumar Tyagi</td><td>Professor</td><td>drytyagi [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (il)</span></div></td></tr>
+                        <tr><td>13</td><td>Dr. Shipra Mital Gupta</td><td>Professor</td><td>shipra [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (ia)</span></div></td></tr>
+                        <tr><td>14</td><td>Dr. Ram Shankar Gupta</td><td>Professor</td><td>rsgupta [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (in)</span></div></td></tr>
+                        <tr><td>15</td><td>Dr. Leena Khanna</td><td>Professor</td><td>leenakhanna [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (i0)</span></div></td></tr>
+                        <tr><td>16</td><td>Dr. Satyabrata Mohapatra</td><td>Professor</td><td>smohapatra [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (ii)</span></div></td></tr>
+                        <tr><td>17</td><td>Dr. Anjana</td><td>Associate Professor</td><td>anjana.bagga [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (im)</span></div></td></tr>
+                        <tr><td>18</td><td>Dr. Arif Ali Khan</td><td>Assistant Professor</td><td>arif [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (ik)</span></div></td></tr>
+                        <tr><td>19</td><td>Dr. Mukesh Kumar</td><td>Associate Professor</td><td>laspimk [AT] ipu.ac.in</td><td><div class="tooltip-container"><a href="http://samarth.edu.in" target="_blank" class="table-profile-link">View Profile <i class="fa-solid fa-arrow-right-long arrow-icon"></i></a><span class="tooltip-text">Verify Profile Gateway (iu)</span></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- SECTION 2: BASICAL ACADEMIC PROGRAMMES OVERVIEW -->
+        <section id="programmes" class="portal-section">
+            <div class="section-title-wrapper">
+                <h3>USBAS General Academic Programs</h3>
+                <p>Overview of technical capacities and baseline university framework setups.</p>
+            </div>
+            <div class="table-responsive-container">
+                <table class="premium-table font-medium-cells">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Programme Name</th>
+                            <th>Duration</th>
+                            <th>Sanctioned Intake</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Ph.D.</td><td>-</td><td>-</td></tr>
+                        <tr><td>2</td><td>Post M.Sc. Diploma in Radiological Physics</td><td>-</td><td>10</td></tr>
+                        <tr><td>3</td><td>B.Sc./M.Sc. (Dual Degree) in Physics</td><td>4/5yrs</td><td>60</td></tr>
+                        <tr><td>4</td><td>B.Sc./M.Sc. (Dual Degree) in Chemistry</td><td>4/5yrs</td><td>60</td></tr>
+                        <tr><td>5</td><td>B.Sc./M.Sc. (Dual Degree) in Mathematics</td><td>4/5yrs</td><td>60</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
-        <!-- VIEW PANEL 3: RESTRICTED MULTI-FUNCTION PUBLISHING MATRIX -->
-        <section class="view-panel" id="adminDashboardView">
-            <div class="admin-dashboard-layout">
-                <h2>Admin Control Center</h2>
-                <p>Publish cross-department assets or expand structural layout configurations.</p>
+        <!-- SECTION 3: DETAILED NEW B.TECH INDUSTRIAL CHEMISTRY SUITE -->
+        <section id="btech-ic" class="portal-section">
+            <div class="section-title-wrapper">
+                <div class="new-launch-banner"><i class="fa-solid fa-bolt"></i> Newly Launched Engineering Program (Session 2026-27)</div>
+                <h3>B.Tech in Industrial Chemistry</h3>
+                <p>Sanctioned Intake Capacity: <strong>60 Seats</strong> | Duration: <strong>4 Years</strong></p>
+            </div>
+
+            <h4 class="sub-table-heading"><i class="fa-solid fa-users-gear"></i> Mapped Faculty Allocations & Labs</h4>
+            <div class="faculty-subject-grid">
+                <div class="mentor-card"><h5>Physical Chemistry (BSIC101)</h5><p>Assigned Mentors: <br><strong>Ms. Sakshi, Ms. Vaishali, Ms. Asmita</strong></p></div>
+                <div class="mentor-card"><h5>Fundamentals of Organic Chemistry (BSIC103)</h5><p>Assigned Mentor: <br><strong>Mr. Yogesh Tyagi</strong></p></div>
+                <div class="mentor-card"><h5>Biochemistry (BSIC100)</h5><p>Assigned Mentor: <br><strong>Mr. Yogesh Tyagi</strong></p></div>
+                <div class="mentor-card"><h5>Mathematics for Chemistry (BSIC107)</h5><p>Assigned Mentor: <br><strong>Ms. Mamta</strong></p></div>
+                <div class="mentor-card"><h5>Human Values & Ethics (BSIC109)</h5><p>Assigned Mentor: <br><strong>Ms. Ishuka</strong></p></div>
+                <div class="mentor-card"><h5>Fundamentals of Physics (BSIC111)</h5><p>Assigned Mentor: <br><strong>Mr. Neeleshwar</strong></p></div>
+                <div class="mentor-card highlight"><h5>Advanced Process Labs</h5><p>Operational Space: <br><strong>Room B-401 (MATLAB Station)</strong></p></div>
+            </div>
+
+            <h4 class="sub-table-heading" style="margin-top: 2rem;"><i class="fa-solid fa-scroll"></i> Scheme Book & Detailed Syllabus Sheets</h4>
+            <div class="syllabus-accordion-container">
                 
-                <!-- Action Tab Toggles inside Admin Panel -->
-                <div class="admin-toggle-row">
-                    <button id="togglePublishBtn" class="admin-tab-btn active" onclick="setAdminAction('publish')">Add New Content</button>
-                    <button id="toggleManageBtn" class="admin-tab-btn" onclick="setAdminAction('structure')">Manage Labs & Sections</button>
-                </div>
-
-                <!-- SUB-FORM 1: PUBLISH LAB CONTENT MODULE -->
-                <form id="contentPublishForm" class="admin-sub-form active">
-                    <label>Target Lab / Department Domain *</label>
-                    <select id="pubLabSelect" required></select>
-
-                    <label>Target Section Slot *</label>
-                    <select id="pubSectionSelect" required></select>
-
-                    <label>Entry Title Name *</label>
-                    <input type="text" id="pubTitle" required placeholder="e.g., High-Resolution GC-MS System">
-                    
-                    <label>Metadata Parameter (Room No / Journal Scope) *</label>
-                    <input type="text" id="pubMeta" required placeholder="e.g., Room 302, Chemistry Wing">
-                    
-                    <label>Resource Reference URL Link (Optional)</label>
-                    <input type="url" id="pubLink" placeholder="e.g., https://doi.org">
-
-                    <label>Core Description / Technical Specifications *</label>
-                    <textarea id="pubDesc" rows="4" required placeholder="Provide clear contextual documentation..."></textarea>
-                    
-                    <button type="submit" class="btn-primary">Publish Entry Node</button>
-                </form>
-
-                <!-- SUB-FORM 2: STRUCTURE MANAGER MODULE -->
-                <div id="structureManagerForm" class="admin-sub-form">
-                    <div class="management-card">
-                        <h3>➕ Expand New Lab Domain</h3>
-                        <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Create a new repository layer (e.g., chemistry, matlab).</p>
-                        <form id="addLabForm">
-                            <input type="text" id="newLabName" required placeholder="e.g., chemistry" style="text-transform: lowercase;">
-                            <button type="submit" class="btn-primary" style="margin-top:10px; padding:8px;">Register New Lab</button>
-                        </form>
-                    </div>
-
-                    <div class="management-card" style="margin-top:20px;">
-                        <h3>➕ Append Custom Slide / Section</h3>
-                        <p style="font-size:12px; color:#64748b; margin-bottom:10px;">Create an extra section that will display globally across all labs.</p>
-                        <form id="addSectionForm">
-                            <input type="text" id="newSectionName" required placeholder="e.g., upcoming seminars">
-                            <button type="submit" class="btn-primary" style="margin-top:10px; padding:8px;">Deploy Custom Slide</button>
-                        </form>
+                <div class="syllabus-block">
+                    <div class="syllabus-block-header">Semester 1 Scheme Matrix (Total Credits: 21)</div>
+                    <div class="syllabus-block-content">
+                        <table class="premium-table dense-text">
+                            <thead><tr><th>Code</th><th>Subject Title</th><th>L-T-P (h)</th><th>Credit</th></tr></thead>
+                            <tbody>
+                                <tr><td>BSIC101</td><td>Introduction to Physical Chemistry</td><td>3-0-0</td><td>3</td></tr>
+                                <tr><td>BSIC103</td><td>Fundamentals of Organic Chemistry</td><td>3-0-0</td><td>3</td></tr>
+                                <tr><td>BSIC105</td><td>Environmental Pollution and Waste Management</td><td>3-0-0</td><td>3</td></tr>
+                                <tr><td>BSIC107</td><td>Mathematics for Chemistry</td><td>3-0-2</td><td>4</td></tr>
+                                <tr><td>BSIC109</td><td>Human Values and Ethics for Engineers</td><td>2-0-0</td><td>2</td></tr>
+                                <tr><td>BSIC111</td><td>Fundamentals of Physics</td><td>3-0-0</td><td>3</td></tr>
+                                <tr><td>BSIC151</td><td>Physical Chemistry lab</td><td>0-0-2</td><td>1</td></tr>
+                                <tr><td>BSIC153</td><td>Organic Chemistry lab</td><td>0-0-2</td><td>1</td></tr>
+                                <tr><td>BSIC155</td><td>Physics Lab</td><td>0-0-2</td><td>1</td></tr>
+                            </tbody>
+                        </table>
+                        <div class="raw-syllabus-pdf-box">
+                            <strong>Detailed Units Text:</strong><br>
+                            • <strong>Unit-1 (Ionic Equilibria, Adsorption):</strong> pH scale, common-ion effect, Henderson-Hasselbalch equation, solubility product. Freundlich and Langmuir adsorption isotherm, BET theory.<br>
+                            • <strong>Unit-2 & 3 (Colloids & Equilibria):</strong> Lyophilic/lyophobic sols, CMC micelles, van't Hoff equation, Gibbs-Duhem equation.<br>
+                            • <strong>Unit-4 (Distribution Law & Phase Rule):</strong> Solvent extraction, phase boundary constraints, Clausius-Clapeyron equation, Eutectic systems (Zn-Cd, Pb-Ag).
+                        </div>
                     </div>
                 </div>
+
+                <div class="syllabus-block">
+                    <div class="syllabus-block-header">Semester 2 Scheme Matrix (Total Credits: 22)</div>
+                    <div class="syllabus-block-content">
+                        <table class="premium-table dense-text">
+                            <thead><tr><th>Subject Title</th><th>L-T-P (h)</th><th>Credit</th></tr></thead>
+                            <tbody>
+                                <tr><td>Fundamentals of Inorganic Chemistry</td><td>3-0-0</td><td>3</td></tr>
+                                <tr><td>Basic Industrial Chemistry</td><td>3-0-0</td><td>3</td></tr>
+                                <tr><td>Fundamentals of Computer and Programming</td><td>3-0-2</td><td>4</td></tr>
+                                <tr><td>English and Professional Communication</td><td>4-0-0</td><td>4</td></tr>
+                                <tr><td>Numerical Methods in Chemical Engineering</td><td>3-0-2</td><td>4</td></tr>
+                                <tr><td>Inorganic Lab / Ind Chem Lab</td><td>0-0-2</td><td>2</td></tr>
+                                <tr><td>Human Values & Ethics for Engineers</td><td>2-0-0</td><td>2</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="syllabus-block">
+                    <div class="syllabus-block-header">Semester 3 & 4 Advance Engineering Mappings</div>
+                    <div class="syllabus-block-content">
+                        <div class="raw-syllabus-pdf-box">
+                            • <strong>Sem 3 Core Modules:</strong> Industrial Organic Chemistry, Chemical Kinetics & Engineering Thermodynamics, Fluid Flow Operations (Navier-Stokes equation balance vectors).<br>
+                            • <strong>Sem 4 Core Modules:</strong> Heat and Mass Transfer (IC202), Transition Metal Complexes and Bioinorganic Chemistry (IC204), Machine Learning in Chemistry (IC251).
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
-    </div>
+        <!-- SECTION 4: LABORATORIES ALLOCATION MATRIX -->
+        <section id="laboratories" class="portal-section">
+            <div class="section-title-wrapper">
+                <h3>USBAS Specialized Laboratories Allocation Map</h3>
+                <p>Complete workspace categorization between specialized research cells and technical academic labs.</p>
+            </div>
+            
+            <h4 class="sub-table-heading"><i class="fa-solid fa-microscope"></i> Research Laboratories</h4>
+            <div class="table-responsive-container" style="margin-bottom: 2.5rem;">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th>Lab Name</th>
+                            <th>Room Number</th>
+                            <th>Teacher In-Charge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Molecular Chemistry Lab</strong></td><td>B-309</td><td>Prof. A.K.Narula</td></tr>
+                        <tr><td><strong>Non Linear Dynamics Research Lab</strong></td><td>B-504</td><td>Dr. Rashmi Bhardwaj</td></tr>
+                        <tr><td><strong>Chemistry Research Laboratory</strong></td><td>B-310</td><td>Dr. Arif Ali Khan/ Dr. Yogesh Kumar Tyagi/ Dr. Tapan Kumar Jain</td></tr>
+                        <tr><td><strong>Physics Research laboratory</strong></td><td>B-216</td><td>Dr. S.Neeleswar</td></tr>
+                        <tr><td><strong>Multifunctional Nano Materials Lab</strong></td><td>B-314</td><td>Dr. S.Mohapatra / Dr.Rajesh Kumar</td></tr>
+                        <tr><td><strong>Solar energy Research lab</strong></td><td>B-406</td><td>Dr. Shruti Aggarwal</td></tr>
+                        <tr><td><strong>Nonmaterial and mesoporous systems lab</strong></td><td>B-316</td><td>Dr. Vaishali Singh</td></tr>
+                        <tr><td><strong>Synthetic Organic & Natural products lab</strong></td><td>-</td><td>Dr. Leena Khanna</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <script src="script.js"></script>
+            <h4 class="sub-table-heading"><i class="fa-solid fa-chalkboard-user"></i> Teaching Laboratories</h4>
+            <div class="table-responsive-container">
+                <table class="premium-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Room Number</th>
+                            <th>Teacher In-Charge</th>
+                            <th>Technical In-Charge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Computation Lab</strong></td><td>B-401</td><td>Dr. Rashmi Bhardwaj</td><td>Mr. Naveen Kumar</td></tr>
+                        <tr><td><strong>Chemistry Lab – I</strong></td><td>B-311</td><td>Dr. Gulshan Dhamija</td><td>Mrs. Seema Rani</td></tr>
+                        <tr><td><strong>Chemistry Lab – II</strong></td><td>B-315</td><td>Dr. Leena Khanna</td><td>Mr. Shankar</td></tr>
+                        <tr><td><strong>UG Physics Lab</strong></td><td>B-405</td><td>Dr. Kriti Batra</td><td>Mr. Anil Kumar</td></tr>
+                        <tr><td><strong>Advanced Physics Lab</strong></td><td>B-402</td><td>Dr. Rajesh Kumar</td><td>Mr. Vishal Kumar</td></tr>
+                        <tr><td><strong>TRC</strong></td><td>B-009</td><td>Dr. Tapan Kumar Jain</td><td>Ms. Pooja</td></tr>
+                        <tr><td><strong>NST Lab</strong></td><td>B-009</td><td>Dr. Shipra Mital Gupta</td><td>-</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- SECTION 5: HISTORICAL DOCTORAL REGISTRY PART 1 -->
+        <section id="phd-registry" class="portal-section">
+            <div class="section-title-wrapper">
+                <h3>List of Ph.D. Awarded in USBAS</h3>
+                <p>Official chronological dashboard tracking research scholars, active thesis metrics, and supervisors.</p>
+                <div class="table-search-box">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="phdSearch" placeholder="Search parameters instantly..." onkeyup="searchTable('phdTable', 'phdSearch')">
+                </div>
+            </div>
+            <div class="table-responsive-container">
+                <table id="phdTable" class="premium-table dense-text">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Name of Scholar</th>
+                            <th>Title of Ph.D Thesis Statement</th>
+                            <th>Name of Supervisor</th>
+                            <th>Year</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Dr. Renu Tuli</td><td>Chaos in attitude motion of a satellite under a third body torque in an elliptic orbit</td><td>Prof Rashmi Bhardwaj</td><td>2004</td></tr>
+                        <tr><td>2</td><td>Dr. Mani Sethi</td><td>Chaos in attitude motion of a satellite under air drag in circular orbit</td><td>Prof Rashmi Bhardwaj</td><td>2008</td></tr>
+                        <tr><td>3</td><td>Dr. Parsan Kaur</td><td>Chaos in non-linear planar oscillation of a satellite under the influence of magnetic torque in an elliptic orbit</td><td>Prof Rashmi Bhardwaj</td><td>2008</td></tr>
+                        <tr><td>4</td><td>Dr. Ashok Kumar</td><td>Mathematical & Statistical tools for location specific weather forecast in medium range (up to 5-days) using Numerical Weather Prediction (NWP)</td><td>Prof Rashmi Bhardwaj</td><td>2009</td></tr>
+                        <tr><td>5</td><td>Dr. Pooja Seth</td><td>Growth of multicystalline sheets/tubes of LIF and silicon by Edge Defined Film Fed growth technique</td><td>Dr. Shruti Aggarwal and Prof. SMD Rao</td><td>2013</td></tr>
+                        <tr><td>6</td><td>Dr. Shweta Khanna</td><td>Electrical Characterization of Metal-SieSchottky Barrier Diodes</td><td>Dr. S. Neeleshwar</td><td>2013</td></tr>
+                        <tr><td>7</td><td>Dr. GeetaDurga</td><td>Studies on Phosphorous Nitrogen and Silicon Synergism for the Development of Flame Retardant Epoxy Resin</td><td>Prof. A.K. Narula</td><td>2013</td></tr>
+                        <tr><td>8</td><td>Dr. Ashish Kumar Mittal</td><td>Analysis of Air Pollutants using fractal and Wavelet Methods</td><td>Prof Rashmi Bhardwaj</td><td>2014</td></tr>
+                        <tr><td>9</td><td>Dr. Manju Rani</td><td>Synthesis of novel P (III) compounds including PHeterocycles containing N/O Atoms and Their Chalcogenides</td><td>Dr. Arif Ali Khan</td><td>2014</td></tr>
+                        <tr><td>10</td><td>Dr. GouriSatpathy</td><td>Development of eco-friendly method to monitor and to reduce pesticide residues in Indian fruits and vegetables</td><td>Dr. Yogesh K. Tyagi and Prof. Rajender K Gupta</td><td>2014</td></tr>
+                        <tr><td>11</td><td>Dr. Abhitosh Upadhyay</td><td>Submanifolds of Manifolds with structures</td><td>Dr. R.S. Gupta</td><td>2014</td></tr>
+                        <tr><td>12</td><td>Dr. Asha Chilwal</td><td>Synthesis and Characterization of New Organotin Derivatives</td><td>Prof. A.K. Narula</td><td>2014</td></tr>
+                        <tr><td>13</td><td>Dr. Meenu Kapoor</td><td>Development of novel hydrocolloids by radiation processing technology</td><td>Prof. Saroj Aggarwal and Prof. R.K Khandal</td><td>2014</td></tr>
+                        <tr><td>14</td><td>Dr. Kulwinder Singh Parmar</td><td>Mathematical Modeling, Multi-fractal and Wavelet Analysis of Water Parameters</td><td>Prof Rashmi Bhardwaj</td><td>2014</td></tr>
+                        <tr><td>15</td><td>Dr. Seema Agrawal</td><td>A study on phosphorus containing poly (amide-imide)s and their effect on the curing & thermal stability of different epoxy resins</td><td>Prof. A.K. Narula</td><td>2014</td></tr>
+                        <tr><td>16</td><td>Dr. Srashti Gupta</td><td>Synthesis and Characterization of Nanostructured material: PbTe thin film</td><td>Dr. S. Neeleshwar</td><td>2015</td></tr>
+                        <tr><td>17</td><td>Dr. Adarsh Kumar</td><td>Synthesis characterization of open chain complexes and their uses as chemical sensors</td><td>Prof. Kusum Sharma</td><td>2015</td></tr>
+                        <tr><td>18</td><td>Dr. Paramjit Singh</td><td>Study of swift heavy Ion and Gamma ray induced free volume changes in polymeric materials and their characterization</td><td>Dr. Rajesh Kumar</td><td>2015</td></tr>
+                        <tr><td>19</td><td>Dr. Manoj Kumar Jaiswal</td><td>Synthesis and modification of Tin oxide nanomaterials by Ion beam for application in spintronics</td><td>Dr. Rajesh Kumar</td><td>2015</td></tr>
+                        <tr><td>20</td><td>Dr. Teena</td><td>Synthesis and Characterization of Hydrogels Through graft Copolymerization of Hydrophillic Monomers onto polymeric Films</td><td>Ms. Sunita Rattan</td><td>2015</td></tr>
+                        <tr><td>21</td><td>Dr. Preeti Sehgal</td><td>Synthesis and Properties of conducting polymers and their hybrids with inorganic molecules</td><td>Prof. A.K. Narula</td><td>2015</td></tr>
+                        <tr><td>22</td><td>Dr. Garima Sharma</td><td>Synthesis and Characterization of some Novel Lanthanide Compounds</td><td>Prof. A.K Narula</td><td>2015</td></tr>
+                        <tr><td>23</td><td>Dr. Divya Jain</td><td>Newton Type Numerical Methods for Solving Non-Linear Equations</td><td>Prof Rashmi Bhardwaj and Prof. Iqbal Ahmad</td><td>2015</td></tr>
+                        <tr><td>24</td><td>Dr. Bhuvneshwar Rai</td><td>Development of degradable composite using euphorbia latex and banana fiber</td><td>Dr. Gulshan Kumar and Dr. R.K. Diwan</td><td>2015</td></tr>
+                        <tr><td>25</td><td>Dr. Kuldeep Srivastava</td><td>Assimilation of Doppler Weather Radar (DWR) Data for Weather Forecast</td><td>Prof Rashmi Bhardwaj</td><td>2015</td></tr>
+                        <tr><td>26</td><td>Dr. Kuldeep Kumar</td><td>A Study of Optical Properties of Cesium Halide CsX Thin Films Deposited by Thermal Evaporation Method</td><td>Prof. Chhaya Ravi Kant</td><td>2015</td></tr>
+                        <tr><td>27</td><td>Dr. Hemant Kumar Singh</td><td>Study on Dye-sensitized solar cell (DSSC) modified by SHI irradiation</td><td>Prof. Shruti Aggarwal</td><td>2015</td></tr>
+                        <tr><td>28</td><td>Dr. Reval V. Durai</td><td>Multi-model Ensemble Prediction Systems for Short and Medium Range Weather Forecasting</td><td>Prof Rashmi Bhardwaj</td><td>2016</td></tr>
+                        <tr><td>29</td><td>Dr. Monika</td><td>Template based synthesis of compound semiconductor nanostructures and their applications</td><td>Dr. Rajesh Kumar</td><td>2016</td></tr>
+                        <tr><td>30</td><td>Dr. Meenu Chawla</td><td>Mathematical Modeling of Microfluidic, Nanofluidic and Fluid Flows Using Tribology</td><td>Prof. Rashmi Bhardwaj</td><td>2016</td></tr>
+                        <tr><td>31</td><td>Dr. Neha</td><td>Synthesis and Characterization of Noble Metal – Tin Oxide Plasmonic Nanocomposites for Sensing Applications</td><td>Dr. S. Mohapatra</td><td>2016</td></tr>
+                        <tr><td>32</td><td>Dr. Sini Kuriakose</td><td>Synthesis and Characterization of Fultifunctional metal – zinc oxide hybrid plasmonic nanostructures</td><td>Dr. S. Mohapatra</td><td>2016</td></tr>
+                        <tr><td>33</td><td>Dr. Sanjeev Kr Gupta</td><td>A study of SHI and Gamma ray induced modifications of some polymers and their characterization</td><td>Dr. Rajesh Kumar</td><td>2016</td></tr>
+                        <tr><td>34</td><td>Dr. Ambika Tundwal</td><td>A Monte Carlo Code for radiation damage of reactor fuel cells, steel and polyethylene by high energy Gamma and Electrons</td><td>Prof. V. Kumar</td><td>2016</td></tr>
+                        <tr><td>35</td><td>Dr. Deepika Kumari</td><td>Geometry of Submanifolds and Biharmonic Maps</td><td>Dr. Ram Shankar Gupta</td><td>2016</td></tr>
+                        <tr><td>36</td><td>Dr. Meenu Chawla</td><td>Mathematical modeling of micro-fluidic, Nano-fluidic and fluid flows using tribology</td><td>Prof Rashmi Bhardwaj</td><td>2016</td></tr>
+                        <tr><td>37</td><td>Dr. Neha</td><td>Synthesis and Characterization of Noble Metal - Tin Oxide Plasmonic Nanocomposites for Sensing Applications</td><td>Dr. Satyabrata Mohapatra</td><td>2016</td></tr>
+                        <tr><td>38</td><td>Dr. Sini Kuriakose</td><td>Synthesis and characterization of multifunctional metal - zinc oxide hybrid plasmonic nanostructures</td><td>Dr. Satyabrata Mohapatra</td><td>2016</td></tr>
+                        <tr><td>39</td><td>Dr. Sanjeev Kr. Gupta</td><td>A study of SHI and Gamma ray induced modifications of some polymers and their characterization</td><td>Dr. Rajesh Kumar</td><td>2016</td></tr>
+                        <tr><td>40</td><td>Dr. Monika</td><td>Template based synthesis of compound semiconductor nanostructures and their applications</td><td>Dr. Rajesh Kumar</td><td>2016</td></tr>
+                        <tr><td>41</td><td>Dr. Manjeet Kaur</td><td>Non-linear Oscillation of a satellite in an elliptic orbit under the influence of aerodynamic torque and gravitational torque</td><td>Prof Rashmi Bhardwaj</td><td>2017</td></tr>
+                        <tr><td>42</td><td>Dr. B. Khasim Saheb</td><td>Fabrication and characterization of Novel nanostructured Thermo Electric Materials</td><td>Dr. S. Neeleshwar</td><td>2017</td></tr>
+                        <tr><td>43</td><td>Dr. Anuradha Saha</td><td>Development of Natural Polymer based Edible Coating on Fruits and Vegetables</td><td>Dr. Yogesh Tyagi and Prof. R.K. Gupta</td><td>2017</td></tr>
+                        <tr><td>44</td><td>Dr. Vatsala Sugumaran</td><td>Preparation and Characterization of Biocomposites based on polyolefin matrix and vegetable peel as reinforcements</td><td>Prof. A.K Narula</td><td>2017</td></tr>
+                        <tr><td>45</td><td>Dr. Sonam Singh</td><td>Investigations in three dimensional imaging and wavefront aberrations</td><td>Dr. Dinesh Ginotra</td><td>2017</td></tr>
+                        <tr><td>46</td><td>Dr. Imran Khan</td><td>Fuzzy mathematical programming with application to game theory</td><td>Dr. Abha Aggarwal</td><td>2017</td></tr>
+                        <tr><td>47</td><td>Dr. Chander Mohan</td><td>Synthesis and characterization of metal complexes and their application as chemical sensors</td><td>Prof. Kusum Sharma</td><td>2018</td></tr>
+                        <tr><td>48</td><td>Dr. Jaspal Singh</td><td>Synthesis and Characterization of noble metal TiO2 Plasmonic Nanocomposites</td><td>Dr. S. Mohapatra</td><td>2018</td></tr>
+                        <tr><td>49</td><td>Dr. Shruti Peshoria</td><td>Synthesis and Characterization of Polypyrrole/porphyrin Compossites and study of their applications</td><td>Prof. A.K. Narula</td><td>2018</td></tr>
+                        <tr><td>50</td><td>Dr. Salma Khan</td><td>Synthesis and Characterization of Composites of Poly (3,4- Ethylendedioxythiophene) and Study of their Applicatins</td><td>Prof. A.K. Narula</td><td>2018</td></tr>
+                        <tr><td>51</td><td>Dr. Chander Mohan</td><td>Synthesis and Characterization of metal complexes and their application a chemical sesnsors</td><td>Prof. Kusum Sharma</td><td>2018</td></tr>
+                        <tr><td>52</td><td>Dr. Manpreet Kaur Bagga</td><td>Corrosion Inhibition of Mild Steel by Green Inhibitors in Acidic Medium</td><td>Prof. Ranu Gadi</td><td>2018</td></tr>
+                        <tr><td>53</td><td>Dr. Jaspal Singh</td><td>Synthesis and Characterization of noble metal TiO2 Plasmonic Nanocomposites</td><td>Dr. S. Mohapatra</td><td>2018</td></tr>
+                        <tr><td>54</td><td>Dr. Rashi Gupta</td><td>Synthesis and Characterization of Semiconductor and Metallic Low Dimensional Structures using Porous Membranes as Socaffolds</td><td>Dr. Rajesh Kumar</td><td>2019</td></tr>
+                        <tr><td>55</td><td>Dr. Sarika Gupta</td><td>Identification of Organic Tracers in Aerosols over NCR (India)</td><td>Prof. Ranu Gadi</td><td>2019</td></tr>
+                        <tr><td>56</td><td>Dr. Vikas Kumar</td><td>Study of Swift Heavy ION Induced Modifications in Oxide Based Nanocomposite Materials</td><td>Dr. Rajesh Kumar</td><td>2019</td></tr>
+                        <tr><td>57</td><td>Dr. Ankur Sood</td><td>Iron oxide-gold core-shell nanoparticles for drug delivery and imaging applications</td><td>Dr. Tapan K. Jain</td><td>2019</td></tr>
+                        <tr><td>58</td><td>Dr. Varun Arora</td><td>Magnetic nanocomposites for drug delivery and imaging applications</td><td>Dr. Tapan K. Jain</td><td>2019</td></tr>
+                        <tr><td>59</td><td>Dr. Shivani</td><td>Development of Titania Nanostructures for Tailor made Properties of Polymer Nanocomposites</td><td>Dr. Gulshan Kumar</td><td>2019</td></tr>
+                        <tr><td>60</td><td>Dr. Ritesh Kumar</td><td>Study of Chitosan and PLA based biodegradable composite substrate for flexible electronic devices</td><td>Dr. Gulshan Kumar</td><td>2020</td></tr>
+                        <tr><td>61</td><td>Dr. Kavita Sahu</td><td>Synthesis and characterization of metal-oxide semiconductor based multifunctional hybrid nanosturctures</td><td>Dr. Satyabrata Mohapatra</td><td>2020</td></tr>
+                        <tr><td>62</td><td>Dr. J. R. Ansari</td><td>Synthesis and Characterization and Self Assembly and Template Driven Nano-Composites and Their Possible Applications</td><td>Prof. Anindya Datta</td><td>2020</td></tr>
+                        <tr><td>63</td><td>Dr. Kunchakara Suhasini</td><td>Synthesis and Characterization of functionalized mesoporous silica nanoparticles for sensing applications</td><td>Prof. Vaishali Singh</td><td>2020</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PREMIUM BLUE CORPORATE FOOTER -->
+    <footer class="main-footer">
+        <p>&copy; 2026 University School of Basic & Applied Sciences (USBAS), GGSIPU. Engineered to High-End Executive Standards.</p>
+        <!-- SECURE ADMIN SYSTEM PORTAL CARD -->
+<section id="admin-portal" class="portal-section">
+    <div class="section-title-wrapper">
+        <h3>USBAS Management Gateway</h3>
+        <p>Authorized access checkpoint for verified faculty and curriculum configurations updates.</p>
+    </div>
+    
+    <div class="admin-login-wrapper" style="max-width: 400px; margin: 2rem auto; padding: 1.5rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+        <div id="authStatusAlert" style="display: none; padding: 10px; margin-bottom: 1rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;"></div>
+        <form id="adminLoginForm" onsubmit="executeAdminAuthLogin(event)">
+            <div style="margin-bottom: 1rem;">
+                <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;"><i class="fa-solid fa-user-shield"></i> Admin Username</label>
+                <input type="text" id="adminUserNode" required placeholder="Enter username..." style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:4px;"><i class="fa-solid fa-key"></i> Operational Password</label>
+                <input type="password" id="adminPassNode" required placeholder="Enter password..." style="width:100%; padding:8px; border:1px solid #cbd5e1; border-radius:4px;">
+            </div>
+            <button type="submit" style="width:100%; padding:10px; background:#0b2545; color:#fff; border:none; border-radius:4px; font-weight:600; cursor:pointer;"><i class="fa-solid fa-right-to-bracket"></i> Validate Credentials</button>
+        </form>
+    </div>
+</section> 
+    </footer>
+
 </body>
 </html>
