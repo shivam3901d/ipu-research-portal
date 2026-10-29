@@ -70,27 +70,21 @@ function searchTable(tableSelectorId, searchInputId) {
                 }
             }
         }
-        
-        if (keywordMatch) {
-            rows[i].style.display = "";
-        } else {
-            rows[i].style.display = "none";
-        }
+        rows[i].style.display = keywordMatch ? "" : "none";
     }
 }
-
-// --- NEW LIVE AUTOMATION ENGINE: FETCH FROM DATABASE POOL ---
+// --- DATABASE POOL PIPELINE FETCH LOGIC ENGINE ---
 async function fetchLiveDatabaseRegistries() {
-    console.log("[USBAS LIVE DATA POOL]: Connecting to Render server endpoints...");
+    console.log("[USBAS LIVE DATA POOL]: Querying active server endpoints...");
     
-    // 1. Fetch Dynamic Faculty Directory from Database
+    // 1. Fetch and Populate Dynamic Faculty Directory
     try {
         const response = await fetch('/api/faculty');
-        if (!response.ok) throw new Error("Faculty network gateway error");
+        if (!response.ok) throw new Error("Faculty network gateway disconnect");
         const facultyRows = await response.json();
         
-        if (facultyRows && facultyRows.length > 0) {
-            const facultyBody = document.getElementById('facultyTable').getElementsByTagName('tbody')[0];
+        const facultyBody = document.getElementById('facultyTableBody');
+        if (facultyBody && facultyRows && facultyRows.length > 0) {
             facultyBody.innerHTML = facultyRows.map(row => `
                 <tr>
                     <td>${row.sn}</td>
@@ -109,17 +103,17 @@ async function fetchLiveDatabaseRegistries() {
             `).join('');
         }
     } catch (err) {
-        console.warn("[LIVE SYNC WARNING]: Using preloaded baseline for Faculty Directory.", err.message);
+        console.warn("[LIVE SYNC WARNING]: Faculty Directory baseline initialization mismatch.", err.message);
     }
 
-    // 2. Fetch Dynamic Ph.D. Awards Matrix from Database
+    // 2. Fetch and Populate Dynamic Ph.D. Awards Matrix
     try {
         const response = await fetch('/api/phd-registry');
-        if (!response.ok) throw new Error("Ph.D. registry gateway error");
+        if (!response.ok) throw new Error("Ph.D. registry network gateway disconnect");
         const phdRows = await response.json();
         
-        if (phdRows && phdRows.length > 0) {
-            const phdBody = document.getElementById('phdTable').getElementsByTagName('tbody')[0];
+        const phdBody = document.getElementById('phdTableBody');
+        if (phdBody && phdRows && phdRows.length > 0) {
             phdBody.innerHTML = phdRows.map(row => `
                 <tr>
                     <td>${row.sn}</td>
@@ -131,15 +125,9 @@ async function fetchLiveDatabaseRegistries() {
             `).join('');
         }
     } catch (err) {
-        console.warn("[LIVE SYNC WARNING]: Using preloaded baseline for Ph.D. Registry.", err.message);
+        console.warn("[LIVE SYNC WARNING]: Ph.D. Registry baseline initialization mismatch.", err.message);
     }
 }
-
-// Attach listeners once DOM content renders completely
-document.addEventListener('DOMContentLoaded', () => {
-    activateAutomaticEngine();
-    fetchLiveDatabaseRegistries(); // Instantly trigger live connection pooling logic
-});
 // --- ADMIN PORTAL INTERACTIVE SECURITY AUTHENTICATION ROUTINES ---
 async function executeAdminAuthLogin(event) {
     event.preventDefault(); // Prevent standard page reloading on form submission
@@ -178,9 +166,6 @@ async function executeAdminAuthLogin(event) {
             
             // Store token securely inside client memory space for mutations references
             sessionStorage.setItem('usbas_admin_token', outcomeData.token);
-            
-            // Redirect or show control items panel here if needed
-            document.getElementById('adminLoginForm').reset();
         } else {
             throw new Error(outcomeData.message || "Invalid network verification parameters.");
         }
@@ -193,3 +178,9 @@ async function executeAdminAuthLogin(event) {
         alertBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Access Aborted: ${authError.message}`;
     }
 }
+
+// Attach listeners once DOM content renders completely
+document.addEventListener('DOMContentLoaded', () => {
+    activateAutomaticEngine();
+    fetchLiveDatabaseRegistries(); // Instantly trigger live connection pooling logic
+});
